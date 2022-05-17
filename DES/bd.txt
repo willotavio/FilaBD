@@ -1,0 +1,15 @@
+create database fila;
+use fila;
+create table paciente(
+	cpf varchar(90) primary key,
+    nome varchar(90) not null,
+    idade int not null,
+    telefone varchar(90) not null
+);
+
+desc paciente;
+
+insert into paciente values ("1","1",1,"1");
+
+select * from paciente;
+delete from paciente where cpf="valdirzin";

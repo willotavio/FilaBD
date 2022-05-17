@@ -13,64 +13,12 @@ namespace DES
     {
         static void Main(string[] args)
         {
-            MySqlConnection conexao;
-            conexao = new MySqlConnection("server=localhost;database=fila;uid=root;password=");
-            try
-            {
-                conexao.Open();
-                Console.WriteLine("Conexão estabelecida com sucesso!");
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("Erro");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
-
-            String sql = "select * from paciente";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-            while (rdr.Read())
-            {
-                Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
-                Console.ReadKey();
-            }
-            conexao.Close();
-            Console.ReadKey();
-
-            if(conexao.State == ConnectionState.Open)
-            {
-
-            }
-            else
-            {
-                conexao.Open();
-            }
-
-
-            //insert no bd
-
-            Console.WriteLine("Digite o CPF");
-            string cpf = Console.ReadLine();
-            Console.WriteLine("Digite o nome");
-            string nome = Console.ReadLine();
-            Console.WriteLine("Digite o telefone");
-            string telefone = Console.ReadLine();
-            Console.WriteLine("Digite a idade");
-            int idade = int.Parse(Console.ReadLine());
             
-            string insertQuery = "insert into paciente values ('" + cpf + "','" + nome + "', '" + telefone + "'," + idade + ")";
 
-            MySqlCommand insertCommand = new MySqlCommand(insertQuery, conexao);
-            insertCommand.ExecuteNonQuery();
-            Console.WriteLine("Dados inseridos com sucesso!");
-
-            conexao.Close();
-
-
-
-
+            pacienteDAO pac = new pacienteDAO();
+            pac.paciente();
+           
+            }
 
 
 
@@ -125,4 +73,4 @@ namespace DES
 
         }
     }
-}
+

@@ -13,10 +13,10 @@ namespace DES
     {
         static void Main(string[] args)
         {
-            
 
-            pacienteDAO pac = new pacienteDAO();
-            pac.paciente();
+            Pessoa p = new Pessoa();
+            p.cadPessoa();
+            
            
             }
 

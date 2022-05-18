@@ -9,11 +9,12 @@ using System.Data;
 
 namespace DES
 {
-    class pacienteDAO
+    class pacienteDAO : Pessoa
     {
 
         public void paciente()
         {
+
 
             //conexao
             MySqlConnection conexao;
@@ -42,6 +43,9 @@ namespace DES
             //inicio do read
             if (escolha == "1")
             {
+                    conexao.Close();
+                    conexao.Open();
+
                 String sql = "select * from paciente";
                 MySqlCommand cmd = new MySqlCommand(sql, conexao);
                 MySqlDataReader rdr = cmd.ExecuteReader();
@@ -53,28 +57,28 @@ namespace DES
                 conexao.Close();
                 Console.ReadKey();
 
-                if (conexao.State == ConnectionState.Open)
-                {
-
-                }
-                else
-                {
-                    conexao.Open();
-                }
+                
             }//fim do read
 
             else if (escolha == "2")
             {
                 //insert no bd
+                if (conexao.State == ConnectionState.Open)
+                   {
 
+                   }
+                   else
+                   {
+                   conexao.Open();
+                   }
                 Console.WriteLine("Digite o CPF");
-                string cpf = Console.ReadLine();
+                cpf = Console.ReadLine();
                 Console.WriteLine("Digite o nome");
-                string nome = Console.ReadLine();
+                nome = Console.ReadLine();
                 Console.WriteLine("Digite o telefone");
-                string telefone = Console.ReadLine();
+                telefone = Console.ReadLine();
                 Console.WriteLine("Digite a idade");
-                int idade = int.Parse(Console.ReadLine());
+                idade = int.Parse(Console.ReadLine());
 
                 string insertQuery = "insert into paciente values ('" + cpf + "','" + nome + "', '" + telefone + "'," + idade + ")";
 
@@ -87,7 +91,11 @@ namespace DES
                 //fim do insert
 
                 //update
-
+                else if (escolha == "3") { 
+                Console.WriteLine("Qual o CPF de quem deve ser alterado?");
+                    cpf = Console.ReadLine();
+                conexao.Close();
+}
                 //delete
 
                 //sair

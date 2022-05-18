@@ -91,10 +91,29 @@ namespace DES
                 //fim do insert
 
                 //update
-                else if (escolha == "3") { 
+                else if (escolha == "3") {
+                    conexao.Close();
+                    conexao.Open();
                 Console.WriteLine("Qual o CPF de quem deve ser alterado?");
-                    cpf = Console.ReadLine();
-                conexao.Close();
+                cpf = Console.ReadLine();
+                    Console.WriteLine("Insira as novas informações:");
+                    Console.WriteLine("Nome:");
+                    nome = Console.ReadLine();
+                    Console.WriteLine("Telefone:");
+                    telefone = Console.ReadLine();
+                    Console.WriteLine("Idade:");
+                    idade = int.Parse(Console.ReadLine());
+                    
+                    string sql = "UPDATE paciente SET nome = @nome, telefone = @telefone, idade = @idade Where cpf = @cpf ";
+                    MySqlCommand cmd = new MySqlCommand(sql, conexao);
+                    cmd.Parameters.AddWithValue("@cpf", cpf);
+                    cmd.Parameters.AddWithValue("@nome", nome);
+                    cmd.Parameters.AddWithValue("@telefone", telefone);
+                    cmd.Parameters.AddWithValue("@idade", idade);
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Dados alterados com sucesso!");
+
+                    conexao.Close();
 }
                 //delete
 

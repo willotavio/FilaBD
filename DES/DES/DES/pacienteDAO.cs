@@ -14,7 +14,9 @@ namespace DES
 
         public void paciente()
         {
-
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.Clear();   
+                Console.ForegroundColor = ConsoleColor.White;
 
             //conexao
             MySqlConnection conexao;
@@ -35,13 +37,15 @@ namespace DES
             string m = "1";
             while (m == "1")
             {
+                
                 string escolha;
-                Console.WriteLine("MENU\n 1 = Listar\n 2 = Adicionar\n q = Sair");
+                Console.WriteLine("MENU\n 1.Listar\n 2.Adicionar\n 3.Atualizar\n 4.Deletar\n q.Sair");
                 escolha = Console.ReadLine();
-            
+                
+                Console.Clear();
 
-            //inicio do read
-            if (escolha == "1")
+                //read
+                if (escolha == "1")
             {
                     conexao.Close();
                     conexao.Open();
@@ -54,15 +58,14 @@ namespace DES
                     Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
                     Console.ReadKey();
                 }
-                conexao.Close();
                 Console.ReadKey();
-
-                
-            }//fim do read
+                    Console.Clear();
+                    conexao.Close();
+                }//fim read
 
             else if (escolha == "2")
             {
-                //insert no bd
+                //insert
                 if (conexao.State == ConnectionState.Open)
                    {
 
@@ -86,9 +89,11 @@ namespace DES
                 insertCommand.ExecuteNonQuery();
                 Console.WriteLine("Dados inseridos com sucesso!");
 
-                conexao.Close();
+                    Console.ReadKey();
+                    Console.Clear();
+                    conexao.Close();
             }
-                //fim do insert
+                //fim insert
 
                 //update
                 else if (escolha == "3") {
@@ -113,16 +118,35 @@ namespace DES
                     cmd.ExecuteNonQuery();
                     Console.WriteLine("Dados alterados com sucesso!");
 
+                    Console.ReadKey();
+                    Console.Clear();
                     conexao.Close();
-}
-                //delete
+                    } //fim updae
 
+                //delete
+                else if (escolha == "4")
+                {
+                    conexao.Close();
+                    conexao.Open();
+
+                    Console.WriteLine("Qual o CPF de quem deve ser deletado?");
+                    cpf = Console.ReadLine();
+                    string sql = "delete from paciente where cpf = @cpf ";
+                    MySqlCommand cmd = new MySqlCommand(sql, conexao);
+                    cmd.Parameters.AddWithValue("@cpf", cpf);
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Dados deletados com sucesso");
+
+                    Console.ReadKey();
+                    Console.Clear();
+                    conexao.Close();
+                } //fim delete
                 //sair
                 else if (escolha == "q")
                 {
                     Environment.Exit(0);
                 }
-            }
+            } //fim while
             }
         }
 }

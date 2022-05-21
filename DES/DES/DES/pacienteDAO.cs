@@ -38,7 +38,6 @@ namespace DES
             do
             {
 
-
                 int escolha;
                 Console.WriteLine("MENU\n 1.Listar\n 2.Adicionar\n 3.Atualizar\n 4.Deletar\n 5.Sair");
                 escolha = int.Parse(Console.ReadLine());
@@ -55,13 +54,25 @@ namespace DES
                         String sql = "select * from paciente";
                         MySqlCommand cmd = new MySqlCommand(sql, conexao);
                         MySqlDataReader rdr = cmd.ExecuteReader();
-                        while (rdr.Read())
+
+                        if (rdr.HasRows)
                         {
-                            Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
+                            while (rdr.Read())
+                            {
+                                Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
+                                Console.ReadKey();
+                            }
                             Console.ReadKey();
+                            Console.Clear();
+                           
+                           
                         }
-                        Console.ReadKey();
-                        Console.Clear();
+                        else
+                        {
+                            Console.WriteLine("A fila está vazia");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
                         conexao.Close();
                         break;
                     //fim read
@@ -123,34 +134,68 @@ namespace DES
                             Console.ReadKey();
                             Console.Clear();
                             conexao.Close();
-                        break; //fim updae
+                        break; //fim update
 
                     //delete
                     case 4:
                             conexao.Close();
                             conexao.Open();
 
-                            Console.WriteLine("Qual o CPF de quem deve ser deletado?");
-                            cpf = Console.ReadLine();
-                            sql = "delete from paciente where cpf = @cpf ";
-                            cmd = new MySqlCommand(sql, conexao);
-                            cmd.Parameters.AddWithValue("@cpf", cpf);
-                            cmd.ExecuteNonQuery();
-                            Console.WriteLine("Dados deletados com sucesso");
+                        sql = "select * from paciente";
+                        cmd = new MySqlCommand(sql, conexao);
+                        rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
+                            Console.ReadKey();
+                        }
+                        Console.ReadKey();
 
+                        Console.WriteLine("\nQual o CPF de quem deve ser deletado?");
+                            cpf = Console.ReadLine();
+
+                        ////sql = "SELECT EXISTS(SELECT cpf from paciente WHERE cpf= @cpf)";
+                        //sql = "SELECT COUNT(1) FROM paciente where cpf = '@cpf'";
+                        //    cmd = new MySqlCommand(sql, conexao);
+                        //    cmd.Parameters.AddWithValue("@cpf", cpf);
+                        //    rdr = cmd.ExecuteReader();
+                           if (rdr == null)
+                        {
+                                conexao.Close();
+                                conexao.Open();
+                                Console.WriteLine("CPF não encontrado!");
+                                Console.ReadKey();
+                            conexao.Close();
+                            
+                        }
+                        else if (rdr != null)
+                        {
+                            conexao.Close();
+                            conexao.Open();
+                             sql = "delete from paciente where cpf = @cpf ";
+                             cmd = new MySqlCommand(sql, conexao);
+                             cmd.Parameters.AddWithValue("@cpf", cpf);
+                             cmd.ExecuteNonQuery();
+                            Console.WriteLine("Dados deletados com sucesso");
+                            }
+                            
                             Console.ReadKey();
                             Console.Clear();
                             conexao.Close();
                         break; //fim delete
-                               //sair
+                               
+                        //sair
                     case 5:
-                        
                             Environment.Exit(0);
                         break;
+                    //fim sair
+
+                    //invalida
                     default:
                         Console.WriteLine("Opção Inválida!");
                         break;
-                }
+                }//fim invalida
+
                 } while (m == "1") ;
                 //fim while
             

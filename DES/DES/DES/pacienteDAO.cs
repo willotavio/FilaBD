@@ -25,6 +25,8 @@ namespace DES
             {
                 conexao.Open();
                 Console.WriteLine("Conexão estabelecida com sucesso!");
+                Console.ReadKey();
+                Console.Clear();
             }
             catch (Exception ex)
             {
@@ -38,7 +40,7 @@ namespace DES
             do
             {
                 int escolha;
-                Console.WriteLine("MENU\n 1.Listar\n 2.Adicionar\n 3.Atualizar\n 4.Deletar\n 5.Sair");
+                Console.WriteLine("ATENDIMENTO\n\n MENU\n 1.Listar\n 2.Adicionar\n 3.Atualizar\n 4.Deletar\n 5.Sair");
                 escolha = int.Parse(Console.ReadLine());
 
                 Console.Clear();
@@ -50,7 +52,7 @@ namespace DES
                         conexao.Close();
                         conexao.Open();
 
-                        String sql = "select * from paciente";
+                        String sql = "select * from paciente order by posicao";
                         MySqlCommand cmd = new MySqlCommand(sql, conexao);
                         MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -58,7 +60,7 @@ namespace DES
                         {
                             while (rdr.Read())
                             {
-                                Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
+                                Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4}\n",rdr["posicao"], rdr["cpf"],  rdr["nome"], rdr["idade"], rdr["telefone"]);
                                 Console.ReadKey();
                             }
                             Console.Clear();
@@ -85,6 +87,8 @@ namespace DES
                             {
                                 conexao.Open();
                             }
+                            Console.WriteLine("Digite a posição");
+                            posicao = int.Parse(Console.ReadLine());
                             Console.WriteLine("Digite o CPF");
                             cpf = Console.ReadLine();
                             Console.WriteLine("Digite o nome");
@@ -94,7 +98,8 @@ namespace DES
                             Console.WriteLine("Digite a idade");
                             idade = int.Parse(Console.ReadLine());
 
-                            string insertQuery = "insert into paciente values ('" + cpf + "','" + nome + "', '" + telefone + "'," + idade + ")";
+
+                            string insertQuery = "insert into paciente (posicao, cpf, nome, telefone, idade) values ('" + posicao + "','" + cpf + "','" + nome + "', '" + telefone + "'," + idade + ")";
 
                             MySqlCommand insertCommand = new MySqlCommand(insertQuery, conexao);
                             insertCommand.ExecuteNonQuery();
@@ -108,11 +113,25 @@ namespace DES
 
                     //update
                     case 3:
-                            conexao.Close();
-                            conexao.Open();
-                            Console.WriteLine("Qual o CPF de quem deve ser alterado?");
-                            cpf = Console.ReadLine();
+                        conexao.Close();
+                        conexao.Open();
+
+                            sql = "select * from paciente order by posicao";
+                            cmd = new MySqlCommand(sql, conexao);
+                            rdr = cmd.ExecuteReader();
+                            while (rdr.Read())
+                            {
+                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
+                            Console.ReadKey();
+                            }
+
+                            
+
+                            Console.WriteLine("Qual a posição de quem deve ser alterado?");
+                            posicao = int.Parse(Console.ReadLine());
                             Console.WriteLine("Insira as novas informações:");
+                            Console.WriteLine("CPF");
+                            cpf = Console.ReadLine();
                             Console.WriteLine("Nome:");
                             nome = Console.ReadLine();
                             Console.WriteLine("Telefone:");
@@ -120,8 +139,12 @@ namespace DES
                             Console.WriteLine("Idade:");
                             idade = int.Parse(Console.ReadLine());
 
-                            sql = "UPDATE paciente SET nome = @nome, telefone = @telefone, idade = @idade Where cpf = @cpf ";
+                            conexao.Close();
+                            conexao.Open();
+
+                            sql = "UPDATE paciente SET cpf= @cpf, nome = @nome, telefone = @telefone, idade = @idade where posicao = @posicao";
                             cmd = new MySqlCommand(sql, conexao);
+                            cmd.Parameters.AddWithValue("@posicao", posicao);
                             cmd.Parameters.AddWithValue("@cpf", cpf);
                             cmd.Parameters.AddWithValue("@nome", nome);
                             cmd.Parameters.AddWithValue("@telefone", telefone);
@@ -139,51 +162,45 @@ namespace DES
                             conexao.Close();
                             conexao.Open();
 
-                        sql = "select * from paciente";
+                        sql = "select * from paciente order by posicao";
                         cmd = new MySqlCommand(sql, conexao);
                         rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
-                            Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
+                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
                             Console.ReadKey();
                         }
 
-                        Console.WriteLine("\nQual o CPF de quem deve ser deletado?");
-                            cpf = Console.ReadLine();
+                        Console.WriteLine("\nQual a posição de quem deve ser deletado?");
+                        posicao = int.Parse(Console.ReadLine());
 
-                        conexao.Close();
-                        conexao.Open();
+                        //conexao.Close();
+                        //conexao.Open();
                         //sql = "SELECT EXISTS(SELECT cpf from paciente WHERE cpf= @cpf)";
-                        sql = "SELECT COUNT(1) FROM paciente where cpf = '@cpf'";
-                        cmd = new MySqlCommand(sql, conexao);
-                        cmd.Parameters.AddWithValue("@cpf", cpf);
-                        rdr = cmd.ExecuteReader();
-
-                        //sql = "select * from paciente where cpf = @cpf";
+                        ////sql = "SELECT COUNT(1) FROM paciente where posicao = '@posicao'";
                         //cmd = new MySqlCommand(sql, conexao);
-                        //cmd.Parameters.AddWithValue("@cpf", cpf);
+                        //cmd.Parameters.AddWithValue("@posicao", posicao);
                         //rdr = cmd.ExecuteReader();
-
-                        if (rdr.Read())
-                        {
-                                conexao.Close();
-                                conexao.Open();
-                                Console.WriteLine("CPF não encontrado!");
-                                Console.ReadKey();
-                            conexao.Close();
-                            
-                        }
-                        else
-                        {
+                        
+                        //if (rdr.Read())
+                        //{
                             conexao.Close();
                             conexao.Open();
-                             sql = "delete from paciente where cpf = @cpf ";
+                             sql = "delete from paciente where posicao = @posicao ";
                              cmd = new MySqlCommand(sql, conexao);
-                             cmd.Parameters.AddWithValue("@cpf", cpf);
+                             cmd.Parameters.AddWithValue("@posicao", posicao);
                              cmd.ExecuteNonQuery();
                             Console.WriteLine("Dados deletados com sucesso");
-                            }
+                        //    }
+                        //    else
+                        //{
+                            //    conexao.Close();
+                            //    conexao.Open();
+                            //    Console.WriteLine("CPF não encontrado!");
+                            //    Console.ReadKey();
+                            //conexao.Close();
                             
+                        //}
                             Console.ReadKey();
                             Console.Clear();
                             conexao.Close();

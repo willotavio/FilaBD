@@ -9,6 +9,7 @@ namespace DES
     class Pessoa
     {
         public string cpf;
+        public int posicao;
         public string nome;
         public string telefone;
         public int idade;

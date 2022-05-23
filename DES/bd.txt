@@ -1,7 +1,8 @@
 create database fila;
 use fila;
 create table paciente(
-	cpf varchar(90) primary key,
+    cpf varchar(90) primary key,
+    posicao int not null,	
     nome varchar(90) not null,
     idade int not null,
     telefone varchar(90) not null

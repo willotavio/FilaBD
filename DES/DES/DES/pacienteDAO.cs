@@ -37,7 +37,6 @@ namespace DES
             string m = "1";
             do
             {
-
                 int escolha;
                 Console.WriteLine("MENU\n 1.Listar\n 2.Adicionar\n 3.Atualizar\n 4.Deletar\n 5.Sair");
                 escolha = int.Parse(Console.ReadLine());
@@ -62,14 +61,13 @@ namespace DES
                                 Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
                                 Console.ReadKey();
                             }
-                            Console.ReadKey();
                             Console.Clear();
                            
                            
                         }
                         else
                         {
-                            Console.WriteLine("A fila está vazia");
+                            Console.WriteLine("A fila está vazia!");
                             Console.ReadKey();
                             Console.Clear();
                         }
@@ -149,17 +147,24 @@ namespace DES
                             Console.WriteLine("CPF:{0} Nome:{1} Idade:{2} Telefone:{3}", rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
                             Console.ReadKey();
                         }
-                        Console.ReadKey();
 
                         Console.WriteLine("\nQual o CPF de quem deve ser deletado?");
                             cpf = Console.ReadLine();
 
-                        ////sql = "SELECT EXISTS(SELECT cpf from paciente WHERE cpf= @cpf)";
-                        //sql = "SELECT COUNT(1) FROM paciente where cpf = '@cpf'";
-                        //    cmd = new MySqlCommand(sql, conexao);
-                        //    cmd.Parameters.AddWithValue("@cpf", cpf);
-                        //    rdr = cmd.ExecuteReader();
-                           if (rdr == null)
+                        conexao.Close();
+                        conexao.Open();
+                        //sql = "SELECT EXISTS(SELECT cpf from paciente WHERE cpf= @cpf)";
+                        sql = "SELECT COUNT(1) FROM paciente where cpf = '@cpf'";
+                        cmd = new MySqlCommand(sql, conexao);
+                        cmd.Parameters.AddWithValue("@cpf", cpf);
+                        rdr = cmd.ExecuteReader();
+
+                        //sql = "select * from paciente where cpf = @cpf";
+                        //cmd = new MySqlCommand(sql, conexao);
+                        //cmd.Parameters.AddWithValue("@cpf", cpf);
+                        //rdr = cmd.ExecuteReader();
+
+                        if (rdr.Read())
                         {
                                 conexao.Close();
                                 conexao.Open();
@@ -168,7 +173,7 @@ namespace DES
                             conexao.Close();
                             
                         }
-                        else if (rdr != null)
+                        else
                         {
                             conexao.Close();
                             conexao.Open();
@@ -196,7 +201,7 @@ namespace DES
                         break;
                 }//fim invalida
 
-                } while (m == "1") ;
+                } while (m != "q") ;
                 //fim while
             
             }

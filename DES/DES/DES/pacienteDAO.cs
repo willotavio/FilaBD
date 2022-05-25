@@ -60,12 +60,10 @@ namespace DES
                         {
                             while (rdr.Read())
                             {
-                                Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4}\n",rdr["posicao"], rdr["cpf"],  rdr["nome"], rdr["idade"], rdr["telefone"]);
+                                Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4} \nPrioridade:{5}\n",rdr["posicao"], rdr["cpf"],  rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
                                 Console.ReadKey();
                             }
                             Console.Clear();
-                           
-                           
                         }
                         else
                         {
@@ -76,18 +74,19 @@ namespace DES
                         conexao.Close();
                         break;
                     //fim read
-
+                    
+                    //insert
                     case 2:
-                            //insert
-                            if (conexao.State == ConnectionState.Open)
-                            {
+                        if (conexao.State == ConnectionState.Open)
+                        {
 
-                            }
-                            else
-                            {
-                                conexao.Open();
-                            }
-                            Console.WriteLine("Digite a posição");
+                        }
+                        else
+                        {
+                            conexao.Open();
+                        }
+
+                        Console.WriteLine("Digite a posição");
                             posicao = int.Parse(Console.ReadLine());
                             Console.WriteLine("Digite o CPF");
                             cpf = Console.ReadLine();
@@ -97,15 +96,27 @@ namespace DES
                             telefone = Console.ReadLine();
                             Console.WriteLine("Digite a idade");
                             idade = int.Parse(Console.ReadLine());
+                            Console.WriteLine("O paciente é preferencial?");
+                            prioridade = int.Parse(Console.ReadLine());
 
+                            //string insertQuery = "insert into paciente (posicao, cpf, nome, telefone, idade, preferencial) values ('" + posicao + "','" + cpf + "','" + nome + "', '" + telefone + "'," + idade + ")";
+                            
+                            //MySqlCommand insertCommand = new MySqlCommand(insertQuery, conexao);
+                            //insertCommand.ExecuteNonQuery();
+                            //Console.WriteLine("Dados inseridos com sucesso!");
 
-                            string insertQuery = "insert into paciente (posicao, cpf, nome, telefone, idade) values ('" + posicao + "','" + cpf + "','" + nome + "', '" + telefone + "'," + idade + ")";
-
-                            MySqlCommand insertCommand = new MySqlCommand(insertQuery, conexao);
-                            insertCommand.ExecuteNonQuery();
+                            sql = "insert into paciente (posicao, cpf, nome, telefone, idade, prioridade) values (@posicao, @cpf, @nome, @telefone, @idade, @prioridade)";
+                            cmd = new MySqlCommand(sql, conexao);
+                            cmd.Parameters.AddWithValue("@posicao", posicao);
+                            cmd.Parameters.AddWithValue("@cpf", cpf);
+                            cmd.Parameters.AddWithValue("@nome", nome);
+                            cmd.Parameters.AddWithValue("@telefone", telefone);
+                            cmd.Parameters.AddWithValue("@idade", idade);
+                            cmd.Parameters.AddWithValue("@prioridade", prioridade);
+                            cmd.ExecuteNonQuery();
                             Console.WriteLine("Dados inseridos com sucesso!");
 
-                            Console.ReadKey();
+                        Console.ReadKey();
                             Console.Clear();
                             conexao.Close();
                             break;
@@ -113,20 +124,24 @@ namespace DES
 
                     //update
                     case 3:
-                        conexao.Close();
-                        conexao.Open();
+                        if (conexao.State == ConnectionState.Open)
+                            {
+
+                            }
+                            else
+                            {
+                                conexao.Open();
+                            }
 
                             sql = "select * from paciente order by posicao";
                             cmd = new MySqlCommand(sql, conexao);
                             rdr = cmd.ExecuteReader();
                             while (rdr.Read())
                             {
-                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
+                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
                             Console.ReadKey();
                             }
-
                             
-
                             Console.WriteLine("Qual a posição de quem deve ser alterado?");
                             posicao = int.Parse(Console.ReadLine());
                             Console.WriteLine("Insira as novas informações:");
@@ -138,17 +153,20 @@ namespace DES
                             telefone = Console.ReadLine();
                             Console.WriteLine("Idade:");
                             idade = int.Parse(Console.ReadLine());
+                            Console.WriteLine("O paciente é preferencial?");
+                            prioridade = int.Parse(Console.ReadLine());
 
                             conexao.Close();
                             conexao.Open();
 
-                            sql = "UPDATE paciente SET cpf= @cpf, nome = @nome, telefone = @telefone, idade = @idade where posicao = @posicao";
+                            sql = "UPDATE paciente SET cpf= @cpf, nome = @nome, telefone = @telefone, idade = @idade, prioridade = @prioridade where posicao = @posicao";
                             cmd = new MySqlCommand(sql, conexao);
                             cmd.Parameters.AddWithValue("@posicao", posicao);
                             cmd.Parameters.AddWithValue("@cpf", cpf);
                             cmd.Parameters.AddWithValue("@nome", nome);
                             cmd.Parameters.AddWithValue("@telefone", telefone);
                             cmd.Parameters.AddWithValue("@idade", idade);
+                            cmd.Parameters.AddWithValue("@prioridade", prioridade);
                             cmd.ExecuteNonQuery();
                             Console.WriteLine("Dados alterados com sucesso!");
 
@@ -159,15 +177,21 @@ namespace DES
 
                     //delete
                     case 4:
-                            conexao.Close();
+                        if (conexao.State == ConnectionState.Open)
+                        {
+
+                        }
+                        else
+                        {
                             conexao.Open();
+                        }
 
                         sql = "select * from paciente order by posicao";
                         cmd = new MySqlCommand(sql, conexao);
                         rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
-                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"]);
+                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
                             Console.ReadKey();
                         }
 

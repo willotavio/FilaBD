@@ -5,7 +5,8 @@ create table paciente(
     posicao int not null,	
     nome varchar(90) not null,
     idade int not null,
-    telefone varchar(90) not null
+    telefone varchar(90) not null,
+    prioridade int not null
 );
 
 desc paciente;

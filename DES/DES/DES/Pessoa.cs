@@ -13,6 +13,7 @@ namespace DES
         public string nome;
         public string telefone;
         public int idade;
+        public int prioridade;
 
         public void cadPessoa()
         {

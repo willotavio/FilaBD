@@ -9,10 +9,10 @@ using System.Data;
 
 namespace DES
 {
-    class pacienteDAO : Pessoa
+    class PacienteDAO : Pessoa
     {
 
-        public void paciente()
+        public void Paciente()
         {
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.Clear();
@@ -20,7 +20,7 @@ namespace DES
 
             //conexao
             MySqlConnection conexao;
-            conexao = new MySqlConnection("server=localhost;database=fila;uid=root;password=");
+            conexao = new MySqlConnection("server=localhost;port=3308;database=fila;uid=root;password=;sslmode=none");
             try
             {
                 conexao.Open();
@@ -60,7 +60,7 @@ namespace DES
                         {
                             while (rdr.Read())
                             {
-                                Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4} \nPrioridade:{5}\n",rdr["posicao"], rdr["cpf"],  rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                                Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n",rdr["posicao"], rdr["cpf"],  rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
                                 Console.ReadKey();
                             }
                             Console.Clear();
@@ -138,7 +138,7 @@ namespace DES
                             rdr = cmd.ExecuteReader();
                             while (rdr.Read())
                             {
-                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
                             Console.ReadKey();
                             }
                             
@@ -191,7 +191,7 @@ namespace DES
                         rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
-                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nIdade:{3} \nTelefone:{4} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                            Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
                             Console.ReadKey();
                         }
 
@@ -246,5 +246,6 @@ namespace DES
                 //fim while
             
             }
+
         }
 }

@@ -17,8 +17,8 @@ namespace DES
 
         public void cadPessoa()
         {
-            pacienteDAO pac = new pacienteDAO();
-            pac.paciente();
+            PacienteDAO pac = new PacienteDAO();
+            pac.Paciente();
         }
     }
 }

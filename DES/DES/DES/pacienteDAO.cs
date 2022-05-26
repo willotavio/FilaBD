@@ -73,11 +73,16 @@ namespace DES
 
             if (rdr.HasRows)
             {
+                    for (int i = 1; i < 9; i++) {
                 while (rdr.Read())
                 {
-                    Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
-                    Console.WriteLine("\nAperte qualquer tecla para continuar");
-                    Console.ReadKey();
+                    Console.WriteLine("POSIÇÃO." + i++);
+                    
+                        Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                        Console.WriteLine("\nAperte qualquer tecla para continuar");
+                        Console.ReadKey();
+                    
+                }
                 }
                 Console.Clear();
             }
@@ -163,47 +168,61 @@ namespace DES
                     Environment.Exit(0);
                 }
             }
-
+            
             string sql = "select * from paciente order by posicao";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             MySqlDataReader rdr = cmd.ExecuteReader();
-            while (rdr.Read())
+            for (int i = 1; i < 9; i++)
             {
-                Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                while (rdr.Read())
+                {
+                    Console.WriteLine("POSIÇÃO." + i++);
+                    Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                    Console.WriteLine("\nAperte qualquer tecla para continuar");
+                    Console.ReadKey();
+                }
+            }
+            if (rdr.HasRows)
+            {
+
+                Console.WriteLine("Qual a posição de quem deve ser alterado?");
+                posicao = int.Parse(Console.ReadLine());
+                Console.WriteLine("Insira as novas informações:");
+                Console.WriteLine("CPF");
+                cpf = Console.ReadLine();
+                Console.WriteLine("Nome:");
+                nome = Console.ReadLine();
+                Console.WriteLine("Telefone:");
+                telefone = Console.ReadLine();
+                Console.WriteLine("Idade:");
+                idade = int.Parse(Console.ReadLine());
+                Console.WriteLine("O paciente é preferencial?");
+                prioridade = int.Parse(Console.ReadLine());
+
+                conexao.Close();
+                conexao.Open();
+
+                sql = "UPDATE paciente SET cpf= @cpf, nome = @nome, telefone = @telefone, idade = @idade, prioridade = @prioridade where posicao = @posicao";
+                cmd = new MySqlCommand(sql, conexao);
+                cmd.Parameters.AddWithValue("@posicao", posicao);
+                cmd.Parameters.AddWithValue("@cpf", cpf);
+                cmd.Parameters.AddWithValue("@nome", nome);
+                cmd.Parameters.AddWithValue("@telefone", telefone);
+                cmd.Parameters.AddWithValue("@idade", idade);
+                cmd.Parameters.AddWithValue("@prioridade", prioridade);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Dados alterados com sucesso!");
                 Console.WriteLine("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
+                Console.Clear();
             }
-
-            Console.WriteLine("Qual a posição de quem deve ser alterado?");
-            posicao = int.Parse(Console.ReadLine());
-            Console.WriteLine("Insira as novas informações:");
-            Console.WriteLine("CPF");
-            cpf = Console.ReadLine();
-            Console.WriteLine("Nome:");
-            nome = Console.ReadLine();
-            Console.WriteLine("Telefone:");
-            telefone = Console.ReadLine();
-            Console.WriteLine("Idade:");
-            idade = int.Parse(Console.ReadLine());
-            Console.WriteLine("O paciente é preferencial?");
-            prioridade = int.Parse(Console.ReadLine());
-
-            conexao.Close();
-            conexao.Open();
-
-            sql = "UPDATE paciente SET cpf= @cpf, nome = @nome, telefone = @telefone, idade = @idade, prioridade = @prioridade where posicao = @posicao";
-            cmd = new MySqlCommand(sql, conexao);
-            cmd.Parameters.AddWithValue("@posicao", posicao);
-            cmd.Parameters.AddWithValue("@cpf", cpf);
-            cmd.Parameters.AddWithValue("@nome", nome);
-            cmd.Parameters.AddWithValue("@telefone", telefone);
-            cmd.Parameters.AddWithValue("@idade", idade);
-            cmd.Parameters.AddWithValue("@prioridade", prioridade);
-            cmd.ExecuteNonQuery();
-            Console.WriteLine("Dados alterados com sucesso!");
-            Console.WriteLine("\nAperte qualquer tecla para continuar");
-            Console.ReadKey();
-            Console.Clear();
+            else
+            {
+                Console.WriteLine("A fila está vazia!");
+                Console.WriteLine("\nAperte qualquer tecla para continuar");
+                Console.ReadKey();
+                Console.Clear();
+            }
             conexao.Close();
 
         }
@@ -234,27 +253,40 @@ namespace DES
             string sql = "select * from paciente order by posicao";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             MySqlDataReader rdr = cmd.ExecuteReader();
-            while (rdr.Read())
+            for (int i = 1; i < 9; i++)
             {
-                Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                while (rdr.Read())
+                {
+                    Console.WriteLine("POSIÇÃO." + i++);
+                    Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                    Console.WriteLine("\nAperte qualquer tecla para continuar");
+                    Console.ReadKey();
+                }
+            }
+            if (rdr.HasRows)
+            {
+                Console.WriteLine("\nQual a posição de quem deve ser deletado?");
+                posicao = int.Parse(Console.ReadLine());
+
+
+                conexao.Close();
+                conexao.Open();
+                sql = "delete from paciente where posicao = @posicao ";
+                cmd = new MySqlCommand(sql, conexao);
+                cmd.Parameters.AddWithValue("@posicao", posicao);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Dados deletados com sucesso");
                 Console.WriteLine("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
+                Console.Clear();
             }
-
-            Console.WriteLine("\nQual a posição de quem deve ser deletado?");
-            posicao = int.Parse(Console.ReadLine());
-
-
-            conexao.Close();
-            conexao.Open();
-            sql = "delete from paciente where posicao = @posicao ";
-            cmd = new MySqlCommand(sql, conexao);
-            cmd.Parameters.AddWithValue("@posicao", posicao);
-            cmd.ExecuteNonQuery();
-            Console.WriteLine("Dados deletados com sucesso");
-            Console.WriteLine("\nAperte qualquer tecla para continuar");
-            Console.ReadKey();
-            Console.Clear();
+            else
+            {
+                Console.WriteLine("A fila está vazia!");
+                Console.WriteLine("\nAperte qualquer tecla para continuar");
+                Console.ReadKey();
+                Console.Clear();
+            }
             conexao.Close();
 
         }

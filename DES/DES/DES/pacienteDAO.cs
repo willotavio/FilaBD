@@ -19,23 +19,29 @@ namespace DES
             conexao = new MySqlConnection("server=localhost;port=3308;database=fila;uid=root;password=;sslmode=none");
         }
 
-        //public void IniciarCon()
-        //{
-        //    try
-        //    {
-        //        conexao.Open();
-        //        Console.WriteLine("Conexão estabelecida com sucesso!");
-        //        Console.ReadKey();
-        //        Console.Clear();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //        Console.WriteLine("Erro");
-        //        Console.ReadKey();
-        //        Environment.Exit(0);
-        //    }
-        //}
+        public void IniciarCon()
+        {
+            try
+            {
+                conexao.Open();
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(" Conexão estabelecida com sucesso!");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            catch (Exception ex)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("\nErro\n\nAperte qualquer tecla para fechar o programa");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+        }
 
         public void Cons()
         {

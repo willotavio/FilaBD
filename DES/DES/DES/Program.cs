@@ -15,17 +15,18 @@ namespace DES
         {
             PacienteDAO c = new PacienteDAO();
             c.Conexao();
+            c.IniciarCon();
             Pessoa p = new Pessoa();
             p.cadPessoa();
 
             string m = "1";
             do
             {
-                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
                 int escolha;
-                Console.WriteLine("ATENDIMENTO\n\n MENU\n 1.Listar\n 2.Adicionar\n 3.Atualizar\n 4.Deletar\n 5.Sair");
+                Console.WriteLine(" ATENDIMENTO\n\n MENU\n 1.Listar\n 2.Adicionar\n 3.Atualizar\n 4.Deletar\n 5.Sair");
                 escolha = int.Parse(Console.ReadLine());
 
                 Console.Clear();

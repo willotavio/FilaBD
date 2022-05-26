@@ -22,7 +22,7 @@ namespace DES
             string m = "1";
             do
             {
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
                 int escolha;

@@ -28,6 +28,7 @@ namespace DES
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(" Conexão estabelecida com sucesso!");
+                Console.WriteLine("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
                 Console.Clear();
             }
@@ -38,6 +39,7 @@ namespace DES
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("\nErro\n\nAperte qualquer tecla para fechar o programa");
+                Console.WriteLine("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
                 Environment.Exit(0);
             }
@@ -59,7 +61,7 @@ namespace DES
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    Console.WriteLine("Erro");
+                    Console.WriteLine("\nErro\n\nAperte qualquer tecla para fechar o programa");
                     Console.ReadKey();
                     Environment.Exit(0);
                 }
@@ -74,6 +76,7 @@ namespace DES
                 while (rdr.Read())
                 {
                     Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                    Console.WriteLine("\nAperte qualquer tecla para continuar");
                     Console.ReadKey();
                 }
                 Console.Clear();
@@ -81,6 +84,7 @@ namespace DES
             else
             {
                 Console.WriteLine("A fila está vazia!");
+                Console.WriteLine("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
                 Console.Clear();
             }
@@ -130,6 +134,7 @@ namespace DES
             cmd.Parameters.AddWithValue("@prioridade", prioridade);
             cmd.ExecuteNonQuery();
             Console.WriteLine("Dados inseridos com sucesso!");
+            Console.WriteLine("\nAperte qualquer tecla para continuar");
 
             Console.ReadKey();
             Console.Clear();
@@ -165,6 +170,7 @@ namespace DES
             while (rdr.Read())
             {
                 Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                Console.WriteLine("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
             }
 
@@ -195,7 +201,7 @@ namespace DES
             cmd.Parameters.AddWithValue("@prioridade", prioridade);
             cmd.ExecuteNonQuery();
             Console.WriteLine("Dados alterados com sucesso!");
-
+            Console.WriteLine("\nAperte qualquer tecla para continuar");
             Console.ReadKey();
             Console.Clear();
             conexao.Close();
@@ -231,6 +237,7 @@ namespace DES
             while (rdr.Read())
             {
                 Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
+                Console.WriteLine("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
             }
 
@@ -245,7 +252,7 @@ namespace DES
             cmd.Parameters.AddWithValue("@posicao", posicao);
             cmd.ExecuteNonQuery();
             Console.WriteLine("Dados deletados com sucesso");
-
+            Console.WriteLine("\nAperte qualquer tecla para continuar");
             Console.ReadKey();
             Console.Clear();
             conexao.Close();

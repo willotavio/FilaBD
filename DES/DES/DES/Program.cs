@@ -32,44 +32,32 @@ namespace DES
                 Console.Clear();
                 switch (escolha)
                 {
-                    //read
                     case 1:
                         c.Cons();
                         break;
-                    //fim read
-
-                    //insert
+                    
                     case 2:
                         c.Add();
                         break;
-                    //fim insert
 
-                    //update
                     case 3:
                         c.Alt();
                         break; 
-                    //fim update
-
-                    //delete
+                    
                     case 4:
                         c.Del();
                         break; 
-                    //fim delete
-
-                    //sair
+                    
                     case 5:
                         Environment.Exit(0);
                         break;
-                    //fim sair
-
-                    //invalida
+                    
                     default:
                         Console.WriteLine("Opção Inválida!");
                         break;
-                }//fim invalida
+                }
 
             } while (m != "q");
-            //fim while
 
         }
 

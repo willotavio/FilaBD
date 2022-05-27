@@ -15,9 +15,6 @@ namespace DES
         {
             PacienteDAO c = new PacienteDAO();
             c.Conexao();
-            c.IniciarCon();
-            Pessoa p = new Pessoa();
-            p.cadPessoa();
 
             string m = "1";
             do
@@ -26,25 +23,29 @@ namespace DES
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
                 int escolha;
-                Console.WriteLine(" ATENDIMENTO\n\n MENU\n 1.Listar\n 2.Adicionar\n 3.Atualizar\n 4.Deletar\n 5.Sair");
+                Console.WriteLine(" ATENDIMENTO\n\n MENU\n 1.FILA\n 2.ADICIONAR PACIENTE\n 3.ALTERAR DADOS\n 4.ATENDER PACIENTE\n 5.FECHAR PROGRAMA");
                 escolha = int.Parse(Console.ReadLine());
 
                 Console.Clear();
                 switch (escolha)
                 {
                     case 1:
+                        c.IniciarCon();
                         c.Cons();
                         break;
                     
                     case 2:
+                        c.IniciarCon();
                         c.Add();
                         break;
 
                     case 3:
+                        c.IniciarCon();
                         c.Alt();
                         break; 
                     
                     case 4:
+                        c.IniciarCon();
                         c.Del();
                         break; 
                     
@@ -54,6 +55,7 @@ namespace DES
                     
                     default:
                         Console.WriteLine("Opção Inválida!");
+                        Console.ReadKey();
                         break;
                 }
 

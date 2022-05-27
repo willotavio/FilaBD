@@ -6,21 +6,19 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using MySql.Data;
 using System.Data;
+using System.Threading;
 
 namespace DES
 {
     class PacienteDAO : Pessoa
     {
         private MySqlConnection conexao; 
-
+        
+        //conexao
         public void Conexao()
         {
-            //conexao
-            conexao = new MySqlConnection("server=localhost;port=3308;database=fila;uid=root;password=;sslmode=none");
-        }
-
-        public void IniciarCon()
-        {
+            
+            conexao = new MySqlConnection("server=localhost;port=3306;database=fila;uid=root;password=;sslmode=none");
             try
             {
                 conexao.Open();
@@ -28,8 +26,7 @@ namespace DES
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(" Conexão estabelecida com sucesso!");
-                Console.WriteLine("\nAperte qualquer tecla para continuar");
-                Console.ReadKey();
+                Thread.Sleep(3000);
                 Console.Clear();
             }
             catch (Exception ex)
@@ -38,14 +35,15 @@ namespace DES
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(ex.Message);
-                Console.WriteLine("\nErro\n\nAperte qualquer tecla para fechar o programa");
-                Console.WriteLine("\nAperte qualquer tecla para continuar");
+                Console.Write("\nErro\n\nAperte qualquer tecla para fechar o programa");
                 Console.ReadKey();
                 Environment.Exit(0);
             }
+
         }
 
-        public void Cons()
+        //iniciar con
+        public void IniciarCon()
         {
             if (conexao.State == ConnectionState.Open)
             {
@@ -61,12 +59,16 @@ namespace DES
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    Console.WriteLine("\nErro\n\nAperte qualquer tecla para fechar o programa");
+                    Console.Write("\nErro\n\nAperte qualquer tecla para fechar o programa");
                     Console.ReadKey();
                     Environment.Exit(0);
                 }
             }
+        }
 
+        //read
+        public void Cons()
+        {
             String sql = "select * from paciente order by posicao";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -78,44 +80,26 @@ namespace DES
                 {
                     Console.WriteLine("POSIÇÃO." + i++);
                     
-                        Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
-                        Console.WriteLine("\nAperte qualquer tecla para continuar");
-                        Console.ReadKey();
-                    
+                        Console.WriteLine("Nome:{0}\n\n", rdr["nome"]);          
                 }
                 }
+                Console.Write("\nAperte qualquer tecla para continuar");
+                Console.ReadKey();
                 Console.Clear();
             }
             else
             {
                 Console.WriteLine("A fila está vazia!");
-                Console.WriteLine("\nAperte qualquer tecla para continuar");
+                Console.Write("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
                 Console.Clear();
             }
             conexao.Close();
         }
+
+        //insert
         public void Add() {
-            if (conexao.State == ConnectionState.Open)
-            {
-
-            }
-            else
-            {
-                try
-                {
-                    conexao.Open();
-                    Console.Clear();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine("Erro");
-                    Console.ReadKey();
-                    Environment.Exit(0);
-                }
-            }
-
+           
             Console.WriteLine("Digite a posição");
             posicao = int.Parse(Console.ReadLine());
             Console.WriteLine("Digite o CPF");
@@ -146,29 +130,9 @@ namespace DES
             conexao.Close();
         }
 
+        //update
         public void Alt()
         {
-
-            if (conexao.State == ConnectionState.Open)
-            {
-
-            }
-            else
-            {
-                try
-                {
-                    conexao.Open();
-                    Console.Clear();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine("Erro");
-                    Console.ReadKey();
-                    Environment.Exit(0);
-                }
-            }
-            
             string sql = "select * from paciente order by posicao";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -178,10 +142,11 @@ namespace DES
                 {
                     Console.WriteLine("POSIÇÃO." + i++);
                     Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
-                    Console.WriteLine("\nAperte qualquer tecla para continuar");
-                    Console.ReadKey();
+                    
                 }
             }
+            Console.Write("\nAperte qualquer tecla para continuar");
+            Console.ReadKey();
             if (rdr.HasRows)
             {
 
@@ -212,14 +177,14 @@ namespace DES
                 cmd.Parameters.AddWithValue("@prioridade", prioridade);
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("Dados alterados com sucesso!");
-                Console.WriteLine("\nAperte qualquer tecla para continuar");
+                Console.Write("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
                 Console.Clear();
             }
             else
             {
                 Console.WriteLine("A fila está vazia!");
-                Console.WriteLine("\nAperte qualquer tecla para continuar");
+                Console.Write("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
                 Console.Clear();
             }
@@ -227,29 +192,9 @@ namespace DES
 
         }
 
+        //delete
         public void Del()
         {
-
-            if (conexao.State == ConnectionState.Open)
-            {
-
-            }
-            else
-            {
-                try
-                {
-                    conexao.Open();
-                    Console.Clear();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine("Erro");
-                    Console.ReadKey();
-                    Environment.Exit(0);
-                }
-            }
-
             string sql = "select * from paciente order by posicao";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -259,13 +204,14 @@ namespace DES
                 {
                     Console.WriteLine("POSIÇÃO." + i++);
                     Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
-                    Console.WriteLine("\nAperte qualquer tecla para continuar");
-                    Console.ReadKey();
+                    
                 }
             }
+                Console.Write("\nAperte qualquer tecla para continuar");
+                Console.ReadKey();
             if (rdr.HasRows)
             {
-                Console.WriteLine("\nQual a posição de quem deve ser deletado?");
+                Console.WriteLine("\nQual a posição de quem foi atendido?");
                 posicao = int.Parse(Console.ReadLine());
 
 
@@ -275,15 +221,15 @@ namespace DES
                 cmd = new MySqlCommand(sql, conexao);
                 cmd.Parameters.AddWithValue("@posicao", posicao);
                 cmd.ExecuteNonQuery();
-                Console.WriteLine("Dados deletados com sucesso");
-                Console.WriteLine("\nAperte qualquer tecla para continuar");
+                Console.WriteLine("Paciente retirado da fila com sucesso!");
+                Console.Write("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
                 Console.Clear();
             }
             else
             {
                 Console.WriteLine("A fila está vazia!");
-                Console.WriteLine("\nAperte qualquer tecla para continuar");
+                Console.Write("\nAperte qualquer tecla para continuar");
                 Console.ReadKey();
                 Console.Clear();
             }

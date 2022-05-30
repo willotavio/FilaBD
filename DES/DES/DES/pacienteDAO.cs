@@ -203,8 +203,7 @@ namespace DES
                 while (rdr.Read())
                 {
                     Console.WriteLine("POSIÇÃO." + i++);
-                    Console.WriteLine("\nPOSIÇÃO:{0} \nCPF:{1} \nNome:{2} \nTelefone:{4} \nIdade:{3} \nPrioridade:{5}\n", rdr["posicao"], rdr["cpf"], rdr["nome"], rdr["idade"], rdr["telefone"], rdr["prioridade"]);
-                    
+                    Console.WriteLine("Nome:{0}\n\n", rdr["nome"]);
                 }
             }
                 Console.Write("\nAperte qualquer tecla para continuar");

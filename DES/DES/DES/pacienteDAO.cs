@@ -69,7 +69,7 @@ namespace DES
         //read
         public void Cons()
         {
-            String sql = "select * from paciente order by posicao";
+            string sql = "select * from paciente order by prioridade and posicao";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -80,7 +80,7 @@ namespace DES
                 {
                     Console.WriteLine("POSIÇÃO." + i++);
                     
-                        Console.WriteLine("Nome:{0}\n\n", rdr["nome"]);          
+                        Console.WriteLine("Nome:{0}\nPrioridade:{1}\n\n", rdr["nome"],rdr["prioridade"]);          
                 }
                 }
                 Console.Write("\nAperte qualquer tecla para continuar");
@@ -133,7 +133,7 @@ namespace DES
         //update
         public void Alt()
         {
-            string sql = "select * from paciente order by posicao";
+            string sql = "select * from paciente order by prioridade and posicao";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             MySqlDataReader rdr = cmd.ExecuteReader();
             for (int i = 1; i < 9; i++)
@@ -195,7 +195,7 @@ namespace DES
         //delete
         public void Del()
         {
-            string sql = "select * from paciente order by posicao";
+            string sql = "select * from paciente order by prioridade and posicao";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             MySqlDataReader rdr = cmd.ExecuteReader();
             for (int i = 1; i < 9; i++)
